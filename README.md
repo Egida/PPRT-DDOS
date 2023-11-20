@@ -9,7 +9,7 @@ I'm not responsible for the use you give using this program.
  It Supports UDP and TCP
 
 ## Usage
-download or copy the script of rundos.sh
+download or copy the script of loader.sh
 
 Maybe you should do it to make it work.
 ```bash
@@ -18,7 +18,7 @@ chmod +x loader.sh
 
 ### Auto-Install Script
 ```bash 
-wget -O loader.sh 'https://raw.githubusercontent.com/fernandesrobert/PPRT-DDOS/master/rundos.sh' && chmod +x loader.sh && ./loader.sh
+wget -O loader.sh 'https://raw.githubusercontent.com/fernandesrobert/PPRT-DDOS/master/loader.sh' && chmod +x loader.sh && ./loader.sh
 ```
 After running this code and want to open it again just do:
 ```bash
