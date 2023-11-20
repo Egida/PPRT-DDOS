@@ -27,10 +27,6 @@ function execute_script() {
     clear
 }
 
-function redo_last_execution() {
-    clear
-    execute_script
-}
 
 clear
 
@@ -59,20 +55,18 @@ read -p "Enter your choice: " choice
 case $choice in
     1) install_script ;;
     2) execute_script ;;
-    3) redo_last_execution ;;
     *) echo "Invalid choice. Exiting." ;;
 esac
 
 echo "Select an option:"
 echo "1. Install script"
 echo "2. Execute script"
-echo "3. Re-do last execution"
+
 
 read -p "Enter your choice: " choice
 
 case $choice in
     1) install_script ;;
     2) execute_script ;;
-    3) redo_last_execution ;;
     *) echo "Invalid choice. Exiting." ;;
 esac

