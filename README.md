@@ -13,16 +13,16 @@ download or copy the script of rundos.sh
 
 Maybe you should do it to make it work.
 ```bash
-chmod +x rundos.sh
+chmod +x loader.sh
 ```
 
 ### Auto-Install Script
 ```bash 
-wget -O runddos.sh 'https://raw.githubusercontent.com/fernandesrobert/PPRT-DDOS/master/rundos.sh' && chmod +x runddos.sh && ./runddos.sh
+wget -O loader.sh 'https://raw.githubusercontent.com/fernandesrobert/PPRT-DDOS/master/rundos.sh' && chmod +x loader.sh && ./loader.sh
 ```
 After running this code and want to open it again just do:
 ```bash
-./ddos.sh
+./loader.sh
 ```
 And if you want an auto-update bash script (I don't think it would be updated too much)
 take the Auto-Install Script and put it inside a .sh file
