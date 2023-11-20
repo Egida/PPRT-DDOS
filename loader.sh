@@ -48,7 +48,6 @@ EOF
 echo "Select an option:"
 echo "1. Install script"
 echo "2. Execute script"
-echo "3. Re-do last execution"
 
 read -p "Enter your choice: " choice
 
